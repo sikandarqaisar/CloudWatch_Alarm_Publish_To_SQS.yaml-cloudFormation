@@ -1,7 +1,7 @@
 # CloudWatch_Alarm_Publish_To_SQS.yaml-cloudFormation
 
 
-<img src= "https://github.com/sikandarqaisar/aws-cloudformation-EC2-with-RDS/blob/master/template.jpg" width="600" height="600">
+<img src= "https://github.com/sikandarqaisar/CloudWatch_Alarm_Publish_To_SQS.yaml-cloudFormation/blob/master/template.jpg" width="600" height="600">
 
 
 ### Description: 
