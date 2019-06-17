@@ -1,4 +1,9 @@
 # CloudWatch_Alarm_Publish_To_SQS.yaml-cloudFormation
+
+
+<img src= "https://github.com/sikandarqaisar/aws-cloudformation-EC2-with-RDS/blob/master/template.jpg" width="600" height="600">
+
+
 ### Description: 
   #### 'AWS CloudFormation Sample Template SNS_Publish_To_SQS:
   Sample template showing how to grant rights so that you can publish SNS notifications
@@ -16,6 +21,7 @@
 #### 3) Upload sns.yaml 
   
 
+
 ~~~
 Upload CloudWatchlogsWithSNS.yaml File.
 ~~~
@@ -25,9 +31,17 @@ Upload this file in aws-cloudformation. This Stack create Enviroment for Ec2 Ins
 
 
 
-### Tips:
-#### 1.
 ~~~
-Use Public IPs of EC2 Instances to test data. 
+Upload instances.yaml File.
 ~~~
-  
+
+**Description:**
+This Stack create Ec2 Instance on Public subnet which we created on earlier stack. This Ec2 Instance have cloudWatch agent. So when we upload this stack we also installing cloudWatch agent in it through UserData. 
+
+
+~~~
+Upload sns.yaml File.
+~~~
+
+**Description:**
+This Stack create three different types of alarm with SNS and SQS. SQS contains QueuePolicy for all Users all permissions. This Stack also creates CloudWatch Event. So by this Stack when alarm trigger it pass message to SQS through SNS. And if any type of changes occours it pass that change to SQS through SNS.
