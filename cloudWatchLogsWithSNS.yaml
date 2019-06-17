@@ -1,0 +1,152 @@
+
+Parameters:
+  CidrBlock:
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Default: 10.0.0.0/16
+    Description: VPC CIDR Block (eg 10.0.0.0/16)
+    Type: String
+  AvailabilityZone1:
+    Description: The AvailabilityZone to use for the first subnet
+    Type: AWS::EC2::AvailabilityZone::Name
+  AvailabilityZone2:
+    Description: The AvailabilityZone to use for the second subnet
+    Type: AWS::EC2::AvailabilityZone::Name 
+  PublicSubnetCidr:
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Default: 10.0.0.0/24
+    Description: VPC CIDR Block for the public subnet (eg 10.0.0.0/24)
+    Type: String
+  PrivateSubnetCidr:
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Default: 10.0.1.0/24
+    Description: VPC CIDR for the private subnet (eg 10.0.0.0/24) 
+    Type: String
+  key:
+    Description : Name of an existing EC2 key pair for SSH access to the EC2 instance
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:
+        Ref: CidrBlock
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: sikandarStack
+
+
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: {Ref: AvailabilityZone1}
+      CidrBlock: {Ref: PublicSubnetCidr}
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - '-'
+              - [{Ref: 'AWS::StackName'},{Ref: AvailabilityZone1}]
+      VpcId:   
+        Ref: VPC
+
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: sikandarStack
+
+
+
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: InternetGateway
+      VpcId:
+        Ref: VPC
+
+
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: VPC
+      Tags:
+        - Key: Name
+          Value: sikandarStack
+
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: InternetGateway           
+      RouteTableId:
+        Ref: RouteTable
+
+
+  SubnetAssoc1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: RouteTable
+      SubnetId:
+        Ref: Subnet1
+
+
+  PublicSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 0.0.0.0/0    
+      Tags:
+        - Key: Name
+          Value: sikandarStack
+
+
+
+Outputs:
+ VPC:
+   Description: A reference to the created PublicSubnets
+   Value: !Ref VPC
+   Export:
+      Name: !Sub "sikandarStack-VPC"  
+ SubnetValue1:
+   Description: A reference to the created PublicSubnets
+   Value: !Ref Subnet1
+   Export:
+      Name: !Sub "sikandarStack-Subnet"      
+
+ PublicSecurityGroup:
+   Description: A reference to the created PublicSecurityGroup
+   Value: !Ref PublicSecurityGroup
+   Export:
+      Name: !Sub "sikandarStack-PublicSecurityGroup"
+
+ AvailabilityZone1:
+   Description: A reference to the created AvailabilityZone1
+   Value: !Ref AvailabilityZone1
+   Export:
+      Name: !Sub "sikandarStack-AvailabilityZone"
