@@ -27,7 +27,7 @@ Upload CloudWatchlogsWithSNS.yaml File.
 ~~~
 
 **Description:**
-Upload this file in aws-cloudformation. This Stack create Enviroment for Ec2 Instance. It create Vpc with 1 subnet, which having internet access. It also create Outputs of some resources which we use later. 
+Upload this file in aws-cloudformation. This Stack create Enviroment for Ec2 Instance. It create Vpc with 1 Public subnet, which having internet access. Then it create Public Security Group for Ec2 Instance. It also create Outputs of some resources which we use later. 
 
 
 
