@@ -1,6 +1,7 @@
 # CloudWatch_Alarm_Publish_To_SQS.yaml-cloudFormation
 When alarm trigger it will pass message to the SQS through SNS. 
-### Description: 'AWS CloudFormation Sample Template SNS_Publish_To_SQS:
+### Description: 
+  #### 'AWS CloudFormation Sample Template SNS_Publish_To_SQS:
   Sample template showing how to grant rights so that you can publish SNS notifications
   to an SQS queue. Note that you will need to specify the CAPABILITY_IAM flag when
   you create the stack to allow this template to execute. You can do this through
