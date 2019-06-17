@@ -1,5 +1,4 @@
 # CloudWatch_Alarm_Publish_To_SQS.yaml-cloudFormation
-When alarm trigger it will pass message to the SQS through SNS. 
 ### Description: 
   #### 'AWS CloudFormation Sample Template SNS_Publish_To_SQS:
   Sample template showing how to grant rights so that you can publish SNS notifications
@@ -12,17 +11,17 @@ When alarm trigger it will pass message to the SQS through SNS.
   for the AWS resources used if you create a stack from this template.'
   
 ### STEPS:
-#### 1) 
+#### 1) Upload CloudWatchlogsWithSNS.Yaml
+#### 2) Upload instances.yaml 
+#### 3) Upload sns.yaml 
   
-  
-### Upload Stack:
+
 ~~~
-Upload EC2WithRds.yaml File.
+Upload CloudWatchlogsWithSNS.yaml File.
 ~~~
 
 **Description:**
-Upload this file in aws-cloudformation. Stack Created by this file will Create two EC2 Instances with Ubuntu AMI, and Relation Database Service (RDS) with their Read Replica and MultiAZ unable. First Instance is connected to main RDS Instance and second one is connected to Read Replica of that RDS Instance just for Read operation from database. Then this stack create Redis Elastic Cache and attach it to the Second Instance that have Read Only access to the data base. Simple Database Web Application is already on S3 bucket that have publically accessable.    
-
+Upload this file in aws-cloudformation. This Stack create Enviroment for Ec2 Instance. It create Vpc with 1 subnet, which having internet access. It also create Outputs of some resources which we use later. 
 
 
 
